@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "vue-router": "^4.6.4",
+    "vuetify": "^3.11.8"
+  },
+  "devDependencies": {
+    "vite-plugin-vuetify": "^2.1.3"
+  }
+}

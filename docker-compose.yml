@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: dockerfile_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: python manage.py runserver 0.0.0.0:8000
+
+  frontend:
+    build:
+      context: .
+      dockerfile: dockerfile_frontend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./vite-project:/app
+    working_dir: /app
+    command: npm run dev
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

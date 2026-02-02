@@ -1,0 +1,14 @@
+FROM node:alpine
+
+WORKDIR /app
+
+
+COPY vite-project/package*.json ./ 
+
+COPY vite-project/ .
+
+
+RUN npm install
+
+
+CMD ["npm", "run", "dev"]
