@@ -3,9 +3,11 @@ import AuthLayout from './layouts/AuthLayout.vue'
 import login from './views/auth/login.vue'
 import register from './views/auth/register.vue'
 import NotFoundPage from './views/NotFoundPage.vue'
-import LandingPage from './views/LandingPage.vue';
-import { components } from 'vuetify/dist/vuetify.js'
+import QuestionPage from './views/types/QuestionPage.vue'
+import QuizLayout from './layouts/QuizLayout.vue'
+import LandingPage from './views/LandingPage.vue'
 import HomePage from './views/HomePage.vue'
+import ResultPage from './views/ResultPage.vue'
 
 const routes = [
   {
@@ -41,8 +43,21 @@ const routes = [
     component: HomePage,
   },
   {
-    path: '/quiz/:id',
-    component: QuizPage,
+    path: '/quiz/:id/',
+    component: QuizLayout,
+    props: true,
+    children:[
+      {
+        path: 'question/:pk',
+        name: 'question',
+        component: QuestionPage,
+      },
+    ]
+  },
+  {
+    path: '/quiz/:id/result',
+    name: 'ResultPage',
+    component: ResultPage,
   },
 ]
 

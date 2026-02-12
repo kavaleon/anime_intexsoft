@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Quizzes, Questions, Users
+from .models import Quizzes, Questions, Users, Option, UserResult
 from django.contrib.auth import authenticate
 
 from django.contrib.auth.hashers import check_password
@@ -23,10 +23,33 @@ class LoginSerializer(serializers.Serializer):
         """{"username":"ulyana","password":"8784858689u"}"""
         
         return user
-    
+
+
+class OptionSerializer(serializers.ModelSerializer):
+    '''сериализатор для модели Options'''
+    class Meta:
+        model = Option
+        fields = ['id', 'text', 'is_correct']
+
+
+class QuestionSerializer(serializers.ModelSerializer):
+    '''сериализатор для модели Questions'''
+    options = OptionSerializer(many=True)
+    class Meta:
+        model = Questions
+        fields = ['id', 'text', 'image_url', 'type', 'options']
+
 
 class QuizSerializer(serializers.ModelSerializer):
+    '''сериализатор для модели Quizes'''
     class Meta:
         model = Quizzes
         fields = '__all__' 
+
+
+class UserResult(serializers.ModelSerializer):
+    '''сериализатор для модели UserResult'''
+    class Meta:
+        model = UserResult
+        fields = '__all__'
 

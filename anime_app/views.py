@@ -7,7 +7,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.contrib.auth.hashers import make_password
 
-from .serializers import LoginSerializer, QuizSerializer
+from .serializers import LoginSerializer, QuizSerializer, QuestionSerializer, UserResult
 from .models import Quizzes, Questions, Users
 
 
@@ -25,9 +25,7 @@ class RegisterView(APIView):
             return Response({'error: Пользователь с таким именем пользователя уже существует'})
         
         hashed_password = make_password(password)
-        print('im here')
         Users.objects.create(username=username, password_hash=hashed_password, is_admin= is_admin)
-        print('right')
         return Response({'message: Регистрация прошла успешно'}, status=status.HTTP_200_OK)
 
 
@@ -38,7 +36,6 @@ class LoginView(APIView):
         if serializer.is_valid():
             user = serializer.validated_data
             refresh = RefreshToken.for_user(user)
-            print(str(refresh), str(refresh.access_token))
             return Response({
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
@@ -49,7 +46,6 @@ class LoginView(APIView):
 
 class LogoutView(APIView):
     def post(self, request):
-        
         return Response({"message": "Вы успешно вышли"})
     
 
@@ -59,3 +55,21 @@ class QuizView(APIView):
         quizzes = Quizzes.objects.all()
         serializer = QuizSerializer(quizzes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+class QuizDetail(APIView):
+    def get(self, request, quiz_id):
+        try:
+            quiz = Quizzes.objects.get(id=quiz_id)
+            questions = quiz.questions.all()
+            serializer = QuestionSerializer(questions, many=True)
+            print(questions[0].options)
+            return Response(serializer.data)
+        except Quizzes.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+class UserResult(APIView):  #дописать
+    def post(self, request):
+        print(request.data, request.data.get('user_id'), request.data.get('answers'))
+        
+        return Response(status=status.HTTP_400_BAD_REQUEST)

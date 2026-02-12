@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <h3>Регистрация</h3>
     <form @submit.prevent="register">
       <div>
@@ -10,10 +10,10 @@
         <label>Пароль:</label>
         <input v-model="password" type="password" required />
       </div>
-      <button type="submit">Зарегистрироваться</button>
+      <v-btn type="submit">Зарегистрироваться</v-btn>
     </form>
     <p v-if="message">{{ message }}</p>
-  </div>
+  </v-container>
 </template>
 
 
@@ -52,3 +52,23 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.v-container{
+  justify-items: center;
+  background-color: #9a48d0ff;
+  position: relative;
+  top: 50%;
+  width: 50%;
+  padding: 5%;
+}
+input{
+  margin: 10px;
+  background-color: #030027ff;
+}
+.v-btn{
+  background-color: #030027ff;
+  color:aliceblue;
+  margin-top: 5%;
+  }
+</style>

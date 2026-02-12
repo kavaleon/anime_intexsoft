@@ -9,3 +9,9 @@ export default {
   name: 'App',
 };
 </script>
+
+<style scoped>
+.v-app{
+  background-color: black;
+}
+</style>

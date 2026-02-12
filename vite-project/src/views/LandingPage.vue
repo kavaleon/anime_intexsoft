@@ -70,6 +70,15 @@
         </v-btn>
       </div>
 
+      <div class="start-quiz-button-container">
+        <v-btn 
+          color="#baff29" 
+          dark  
+          @click="$router.push('/home')"
+        >
+          Начать без регистрации
+        </v-btn>
+      </div>
       
       <div class="logo">
         <img
@@ -124,13 +133,13 @@ export default {
         type: 'loop',
         perPage: 1,
         autoplay: true,
-        interval: 3000, // через 3 сек
+        interval: 5000, 
         speed: 5000,
         arrows: true,
         pagination: false,
         drag: false,
-        height: '100vh', // занимает весь экран по высоте
-        width: '100%', // по ширине экрана
+        height: '100vh', 
+        width: '100%', 
       },
       options1: {
         type: 'loop',          
@@ -234,7 +243,14 @@ export default {
   font-size: 25px;
   font-weight: 600;
 }
-
+.start-quiz-button-container {
+  position: absolute;
+  top: 3%;
+  right: 10%;
+  z-index: 10;
+  font-size: 25px;
+  font-weight: 600;
+}
 .full-width-text {
   font-family: "Kurale", serif;
   font-weight: 400;
