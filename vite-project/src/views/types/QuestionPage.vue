@@ -1,6 +1,6 @@
 <template>
       <v-card>
-        <div v-if="currentQuestion.options.length !== 0">
+        <div v-if="currentQuestion.options.length !== 0 && currentQuestion.options.length > 3">
           <v-card-text v-if="currentQuestion">
             <h2>Вопрос {{ currentQuestion.id }}</h2>
             
@@ -49,65 +49,51 @@
       </v-card>
 </template>
 
-<script>
-import { ref, computed, watch } from 'vue';
-import { useQuizStorage } from '../../stores/quizStorage';
-import { useRouter } from 'vue-router';
-import axios from 'axios';
+<script> import { ref, computed, watch } from 'vue'; 
+import { useQuizStorage } from '../../stores/quizStorage'; 
+import { useRouter } from 'vue-router'; 
+import axios from 'axios'; 
 
 export default {
-  setup() {
-    const quizStore = useQuizStorage();
-    const router = useRouter();
-    const currentQuestion = computed(() => quizStore.question);
-    const selectedAnswer = ref(quizStore.answers[quizStore.currentQuestionIndex]);
-    const user_id = quizStore.userId
+   setup() { 
+    const quizStore = useQuizStorage(); 
+    const router = useRouter(); 
+    const currentQuestion = computed(() => quizStore.question); 
+    const selectedAnswer = ref(quizStore.answers[quizStore.currentQuestionIndex]); 
     
-    watch(
-      () => quizStore.currentQuestionIndex,
-      (newVal) => {
-        selectedAnswer.value = quizStore.answers[newVal];
-      }
-    );
+    watch( () => quizStore.currentQuestionIndex, 
+      (newVal) => { selectedAnswer.value = quizStore.answers[newVal]; } 
+    ); 
+    const selectAnswer = (answer) => { 
+      selectedAnswer.value = answer; 
+      quizStore.setAnswer(answer); 
+    }; 
+    const nextQuestion = () => { 
+      quizStore.next(); 
+    }; 
+    const showResult = async () => { 
+      const response = await axios.post(`http://127.0.0.1:8000/api/quiz/${quizStore.quizId}/result/`, {
+                answers: quizStore.answers
+                }, 
+                {
+                  headers: { 'Content-Type': 'application/json', 
+                  }
+                }
+              );
+      router.push({ name: 'ResultPage', 
+      params: { quizId: quizStore.quizId }, 
+      query: { data: JSON.stringify(response.data) }}); } 
 
-    const selectAnswer = (answer) => {
-      selectedAnswer.value = answer;
-      quizStore.setAnswer(answer);
-    };
-
-    const nextQuestion = () => {
-      quizStore.next();
-    };
-
-    const showResult = () => {
-      sendResult()
-      console.log(quizStore.answers)
-      router.push(`/quiz/${quizStore.quizId}/result`);
-    }
-
-    const sendResult = () =>{
-      const response = axios.post('http://127.0.0.1:8000/api/quiz/user_id/result/', {
-        user_id: quizStore.userId,
-        answers: quizStore.answers
-      }, {
-      headers: {
-          'Content-Type': 'application/json'
-      }
-      });
-    
-    }
-
-    return {
-      currentQuestion,
-      selectedAnswer,
-      selectAnswer,
-      nextQuestion,
-      showResult,
-      sendResult,
-    };
-  },
-};
-</script>
+      return { 
+        currentQuestion, 
+        selectedAnswer, 
+        selectAnswer, 
+        nextQuestion, 
+        showResult, 
+      }; 
+      }, 
+    }; 
+      </script>
 
 <style scoped>
 .question-image {

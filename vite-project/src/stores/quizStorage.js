@@ -2,11 +2,12 @@ import { defineStore } from 'pinia';
 
 export const useQuizStorage = defineStore('quiz', {
   ststate: () => ({
-  quizId: null,
+  quizId: 0,
   questions: [],
   answers: [],
   currentQuestionIndex: 0,
   question: null,
+  userId: null,
 }),
 actions: {
   setQuestions(quiz_id, questions) {
@@ -31,7 +32,7 @@ actions: {
       this.currentQuestionIndex += 1;
       this.setQuestion();
     }
-  }
+  },
 },
 });
 

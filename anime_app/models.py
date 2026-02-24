@@ -42,7 +42,6 @@ class Questions(models.Model):
     genres = models.ManyToManyField(Genres, related_name='questions')
 
 
-
 class Option(models.Model):
     question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='options')
     text = models.TextField()
@@ -64,6 +63,7 @@ class Quizzes(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class UserResult(models.Model):
     user = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='results')

@@ -13,12 +13,15 @@
       <v-btn type="submit">Зарегистрироваться</v-btn>
     </form>
     <p v-if="message">{{ message }}</p>
+    <v-btn
+    @click="this.$router.push({ name: 'login'})">Уже зарегистрирован</v-btn>
   </v-container>
 </template>
 
 
 <script>
 import axios from 'axios';
+
 
 export default {
   data() {
@@ -40,6 +43,8 @@ export default {
             }
             });
             this.message = 'Пользователь зарегистрирован';
+            
+            
         } catch (error) {
             if (error.response) {
             this.message = error.response.data.error || 'Ошибка регистрации';
@@ -61,10 +66,6 @@ export default {
   top: 50%;
   width: 50%;
   padding: 5%;
-}
-input{
-  margin: 10px;
-  background-color: #030027ff;
 }
 .v-btn{
   background-color: #030027ff;

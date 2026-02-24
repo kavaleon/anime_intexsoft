@@ -8,6 +8,8 @@ import QuizLayout from './layouts/QuizLayout.vue'
 import LandingPage from './views/LandingPage.vue'
 import HomePage from './views/HomePage.vue'
 import ResultPage from './views/ResultPage.vue'
+import { components } from 'vuetify/dist/vuetify.js'
+import UserResultsPage from './views/UserResultsPage.vue'
 
 const routes = [
   {
@@ -39,7 +41,7 @@ const routes = [
 
   {
     path: '/home',
-    name: "HomePage",
+    name: 'HomePage',
     component: HomePage,
   },
   {
@@ -58,6 +60,11 @@ const routes = [
     path: '/quiz/:id/result',
     name: 'ResultPage',
     component: ResultPage,
+  },
+  {
+    path: '/user/:id/results',
+    name: 'UserResultsPage',
+    component: UserResultsPage,
   },
 ]
 

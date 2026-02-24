@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login">
     <h3>Вход</h3>
     <form @submit.prevent="register">
       <div>
@@ -18,12 +18,13 @@
 
 
 <script>
+
 export default {
   data() {
     return {
       username: '',
       password: '',
-      message: ''
+      message: '',
     }
   },
   methods: {
@@ -37,11 +38,16 @@ export default {
           body: JSON.stringify({
             username: this.username,
             password: this.password
-          })
+          }),
+          credentials: 'include'
         });
+        
         const result = await response.json();
         if (response.ok) {
           this.message = 'Вход успешен';
+          localStorage.setItem('username', result.username)
+          this.$router.push({ name: 'HomePage'})
+
         } else {
           this.message = result.message || 'Ошибка входа';
         }
@@ -53,3 +59,10 @@ export default {
   }
 }
 </script>
+
+
+<style scoped>
+.login{
+  background-color: azure;
+}
+</style>
